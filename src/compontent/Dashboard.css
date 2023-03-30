@@ -1,0 +1,6 @@
+.graph {
+  width: 300px;
+  height: 300px;
+  border: 2px solid #ccc; /* border color and width */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* shadow properties */
+}
