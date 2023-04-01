@@ -21,7 +21,7 @@ const SideNavigation = () => {
         </Navbar.Brand>
       </Container>
       <hr />
-      <Nav className='flex-column flex-grow-1 pt-3'>
+      <Nav className='flex-column p-3' style={{ width: '100%' }}>
         <Nav.Item>
           <Nav.Link href='#'>Dashboard</Nav.Link>
         </Nav.Item>
