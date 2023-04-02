@@ -2,7 +2,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import './SideNavigation.css';
+import { Button } from 'react-bootstrap';
+import { useState } from 'react';
+import ExpenseModal from './ExpenseModal';
+
 const SideNavigation = () => {
+  const [modalShow, setModalShow] = useState(false);
   return (
     <Navbar
       fixed='top'
@@ -22,6 +27,9 @@ const SideNavigation = () => {
       </Container>
       <hr />
       <Nav className='flex-column p-3' style={{ width: '100%' }}>
+        <Button onClick={() => setModalShow(true)}>Add Expense</Button>
+        <ExpenseModal show={modalShow} onHide={() => setModalShow(false)} />
+        <br />
         <Nav.Item>
           <Nav.Link href='#'>Dashboard</Nav.Link>
         </Nav.Item>
