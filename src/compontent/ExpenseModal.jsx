@@ -1,20 +1,39 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { useState } from 'react';
+import { useRef } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 const ExpenseModal = (props) => {
-  const [formData, setFormData] = useState({
-    date: new Date().toISOString().substr(0, 10),
-    time: new Date().toLocaleTimeString(),
-  });
+  const formRef = useRef(null);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const now = new Date();
+  const isoDateTime =
+    now.getFullYear() +
+    '-' +
+    ('0' + (now.getMonth() + 1)).slice(-2) +
+    '-' +
+    ('0' + now.getDate()).slice(-2) +
+    'T' +
+    ('0' + now.getHours()).slice(-2) +
+    ':' +
+    ('0' + now.getMinutes()).slice(-2);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(formRef.current);
+    console.log({
+      date: formData.get('date'),
+      amount: formData.get('amount'),
+      category: formData.get('category'),
+      description: formData.get('description'),
+    });
+  };
+
+  const handleSave = (e) => {
+    handleSubmit(e);
+    props.onHide();
   };
 
   return (
@@ -30,19 +49,17 @@ const ExpenseModal = (props) => {
         <Button variant='secondary'>Transfer</Button>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group as={Row} className='mb-3' controlId='formBasicEmail'>
+        <Form ref={formRef} id='myForm'>
+          <Form.Group as={Row} className='mb-3' controlId='date'>
             <Form.Label column sm={2}>
               Date
             </Form.Label>
             <Col sm={7}>
-              <InputGroup>
-                <Form.Control
-                  onChange={handleInputChange}
-                  placeholder={formData.date}
-                  type='datetime-local'
-                />
-              </InputGroup>
+              <Form.Control
+                name='date'
+                type='datetime-local'
+                defaultValue={isoDateTime}
+              />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='amount'>
@@ -50,7 +67,7 @@ const ExpenseModal = (props) => {
               Amount
             </Form.Label>
             <Col sm={5}>
-              <Form.Control type='number' placeholder='23 Rs' />
+              <Form.Control type='number' name='amount' placeholder='23 Rs' />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='category'>
@@ -58,7 +75,7 @@ const ExpenseModal = (props) => {
               Category
             </Form.Label>
             <Col sm={5}>
-              <Form.Select aria-label='Default select example'>
+              <Form.Select name='category' aria-label='Default select example'>
                 <option>HouseHold</option>
                 <option value='1'>Food</option>
                 <option value='2'>Debt</option>
@@ -67,15 +84,19 @@ const ExpenseModal = (props) => {
             </Col>
           </Form.Group>
           <Form.Group className='mb-3' controlId='description'>
-            <Form.Control as='textarea' placeholder='Description' />
+            <Form.Control
+              as='textarea'
+              name='description'
+              placeholder='Description'
+            />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='secondary' onClick={props.onHide}>
-          Close
+        <Button variant='secondary' type='reset' onClick={props.onHide}>
+          Cancel
         </Button>
-        <Button variant='primary' onClick={props.onHide}>
+        <Button variant='primary' type='submit' onClick={handleSave}>
           Save
         </Button>
       </Modal.Footer>
