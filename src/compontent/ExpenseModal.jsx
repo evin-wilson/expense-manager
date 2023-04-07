@@ -4,24 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useState, useRef } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
-const expenseOption = [
-  { value: 'food', label: 'Food' },
-  { value: 'houseHold', label: 'Household' },
-  { value: 'Social life', label: 'Social life' },
-  { value: 'Health', label: 'Health' },
-  { value: 'Transportation', label: 'Transportation' },
-  { value: 'debt', label: 'Debt' },
-  { value: 'Other', label: 'Other' },
-];
-
-const incomeOption = [
-  { value: 'Salary', label: 'Salary' },
-  { value: 'Credits', label: 'Credits' },
-  { value: 'Allowance', label: 'Allowance' },
-  { value: 'Bonus', label: 'Bonus' },
-  { value: 'Other', label: 'Other' },
-];
+import { incomeOption, expenseOption } from '../data/data';
 
 const getIsoDateTime = () => {
   const now = new Date();
@@ -52,6 +35,7 @@ const ExpenseModal = (props) => {
       amount: formData.get('amount'),
       category: formData.get('category'),
       description: formData.get('description'),
+      note: formData.get('note'),
     });
   };
 
@@ -131,6 +115,19 @@ const ExpenseModal = (props) => {
                       </option>
                     ))}
               </Form.Select>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} className='mb-3' controlId='note'>
+            <Form.Label column sm={2}>
+              Note
+            </Form.Label>
+            <Col sm={5}>
+              <Form.Control
+                type='text'
+                name='note'
+                placeholder='Note'
+                defaultValue=''
+              />
             </Col>
           </Form.Group>
           <Form.Group className='mb-3' controlId='description'>
