@@ -1,13 +1,29 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const ExpenseModal = (props) => {
-  const formRef = useRef(null);
+const expenseOption = [
+  { value: 'food', label: 'Food' },
+  { value: 'houseHold', label: 'Household' },
+  { value: 'Social life', label: 'Social life' },
+  { value: 'Health', label: 'Health' },
+  { value: 'Transportation', label: 'Transportation' },
+  { value: 'debt', label: 'Debt' },
+  { value: 'Other', label: 'Other' },
+];
 
+const incomeOption = [
+  { value: 'Salary', label: 'Salary' },
+  { value: 'Credits', label: 'Credits' },
+  { value: 'Allowance', label: 'Allowance' },
+  { value: 'Bonus', label: 'Bonus' },
+  { value: 'Other', label: 'Other' },
+];
+
+const getIsoDateTime = () => {
   const now = new Date();
   const isoDateTime =
     now.getFullYear() +
@@ -19,6 +35,14 @@ const ExpenseModal = (props) => {
     ('0' + now.getHours()).slice(-2) +
     ':' +
     ('0' + now.getMinutes()).slice(-2);
+  return isoDateTime;
+};
+
+const ExpenseModal = (props) => {
+  const [transaction, settransaction] = useState('expense');
+  const formRef = useRef(null);
+
+  const isoDateTime = getIsoDateTime();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,9 +68,23 @@ const ExpenseModal = (props) => {
       centered
     >
       <Modal.Header closeButton>
-        <Button variant='success'>Income</Button>
-        <Button variant='danger'>Expense</Button>
-        <Button variant='secondary'>Transfer</Button>
+        <Button
+          variant={transaction === 'income' ? 'success' : 'outline-success'}
+          className={`me-3 ${transaction === 'income' ? 'active shadow' : ''}`}
+          onClick={() => settransaction('income')}
+        >
+          Income
+        </Button>
+        <Button
+          variant={transaction === 'expense' ? 'danger' : 'outline-danger'}
+          className={`me-3 ${transaction === 'expense' ? 'active shadow' : ''}`}
+          onClick={() => settransaction('expense')}
+        >
+          Expense
+        </Button>
+        <Button variant='light' disabled={true}>
+          Transfer
+        </Button>
       </Modal.Header>
       <Modal.Body>
         <Form ref={formRef} id='myForm'>
@@ -67,7 +105,12 @@ const ExpenseModal = (props) => {
               Amount
             </Form.Label>
             <Col sm={5}>
-              <Form.Control type='number' name='amount' placeholder='23 Rs' />
+              <Form.Control
+                type='number'
+                name='amount'
+                defaultValue={0.0}
+                placeholder='23 Rs'
+              />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='category'>
@@ -76,10 +119,17 @@ const ExpenseModal = (props) => {
             </Form.Label>
             <Col sm={5}>
               <Form.Select name='category' aria-label='Default select example'>
-                <option>HouseHold</option>
-                <option value='1'>Food</option>
-                <option value='2'>Debt</option>
-                <option value='3'>something</option>
+                {transaction === 'income'
+                  ? incomeOption.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))
+                  : expenseOption.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
               </Form.Select>
             </Col>
           </Form.Group>
@@ -93,7 +143,7 @@ const ExpenseModal = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='secondary' type='reset' onClick={props.onHide}>
+        <Button variant='danger' type='reset' onClick={props.onHide}>
           Cancel
         </Button>
         <Button variant='primary' type='submit' onClick={handleSave}>
