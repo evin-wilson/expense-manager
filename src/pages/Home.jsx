@@ -2,15 +2,11 @@ import Dashboard from '../compontent/Dashboard';
 import RecordCard from '../compontent/RecordCard';
 import { transactions } from '../data/data';
 
-function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return `${day.toString().padStart(2, '0')}-${month
-    .toString()
-    .padStart(2, '0')}-${year}`;
-}
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const options = { day: 'numeric', month: 'long', year: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+};
 
 const groupedTransactions = transactions.reduce((acc, transaction) => {
   const date = formatDate(transaction.date);
