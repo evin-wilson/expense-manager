@@ -1,5 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import { Table } from 'react-bootstrap';
+import { useState } from 'react';
+import ExpenseModal from './ExpenseModal';
 
 const getTotalIncomeAndExpense = (records) => {
   let income = 0.0;
@@ -11,11 +13,11 @@ const getTotalIncomeAndExpense = (records) => {
       expense += record.amount;
     }
   });
-  // console.log({ income: income, expense: expense });
   return { income, expense };
 };
 
 function RecordCard({ date, records }) {
+  const [modalShow, setModalShow] = useState(false);
   const { income, expense } = getTotalIncomeAndExpense(records);
   return (
     <Card className='mb-3'>
@@ -39,6 +41,7 @@ function RecordCard({ date, records }) {
                     ? { border: '2px solid green' }
                     : { border: '2px solid red' }
                 }
+                onClick={() => setModalShow(true)}
               >
                 <td style={{ width: '25%' }}>{record.date}</td>
                 <td style={{ width: '25%' }}>{record.amount}</td>
@@ -48,6 +51,9 @@ function RecordCard({ date, records }) {
             ))}
           </tbody>
         </Table>
+        {modalShow && (
+          <ExpenseModal show={modalShow} onHide={() => setModalShow(false)} />
+        )}
       </Card.Body>
     </Card>
   );
