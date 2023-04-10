@@ -5,29 +5,13 @@ import { useState, useRef } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { incomeOption, expenseOption } from '../data/data';
-
-const getIsoDateTime = () => {
-  const now = new Date();
-  const isoDateTime =
-    now.getFullYear() +
-    '-' +
-    ('0' + (now.getMonth() + 1)).slice(-2) +
-    '-' +
-    ('0' + now.getDate()).slice(-2) +
-    'T' +
-    ('0' + now.getHours()).slice(-2) +
-    ':' +
-    ('0' + now.getMinutes()).slice(-2);
-  return isoDateTime;
-};
+import record from '../data/record';
 
 const ExpenseModal = (props) => {
   const [transaction, settransaction] = useState('expense');
   const formRef = useRef(null);
 
-  const isoDateTime = getIsoDateTime();
-
-  const handleSubmit = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     console.log({
@@ -37,10 +21,6 @@ const ExpenseModal = (props) => {
       description: formData.get('description'),
       note: formData.get('note'),
     });
-  };
-
-  const handleSave = (e) => {
-    handleSubmit(e);
     props.onHide();
   };
 
@@ -80,7 +60,7 @@ const ExpenseModal = (props) => {
               <Form.Control
                 name='date'
                 type='datetime-local'
-                defaultValue={isoDateTime}
+                defaultValue={record.date}
               />
             </Col>
           </Form.Group>
@@ -92,7 +72,7 @@ const ExpenseModal = (props) => {
               <Form.Control
                 type='number'
                 name='amount'
-                defaultValue={0.0}
+                defaultValue={record.amount.toFixed(2)}
                 placeholder='23 Rs'
               />
             </Col>
@@ -103,7 +83,7 @@ const ExpenseModal = (props) => {
             </Form.Label>
             <Col sm={5}>
               <Form.Select name='category' aria-label='Default select example'>
-                {transaction === 'income'
+                {record.transaction === 'income'
                   ? incomeOption.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -126,7 +106,7 @@ const ExpenseModal = (props) => {
                 type='text'
                 name='note'
                 placeholder='Note'
-                defaultValue=''
+                defaultValue={record.note}
               />
             </Col>
           </Form.Group>
@@ -135,6 +115,7 @@ const ExpenseModal = (props) => {
               as='textarea'
               name='description'
               placeholder='Description'
+              defaultValue={record.description}
             />
           </Form.Group>
         </Form>
