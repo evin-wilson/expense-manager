@@ -5,10 +5,10 @@ import { useState, useRef } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { incomeOption, expenseOption } from '../data/data';
-import record from '../data/record';
 
-const ExpenseModal = (props) => {
-  const [transaction, settransaction] = useState('expense');
+const TransactionsModal = (props) => {
+  const record = props.record;
+  const [transaction, settransaction] = useState(record.transaction);
   const formRef = useRef(null);
 
   const handleSave = (e) => {
@@ -82,8 +82,12 @@ const ExpenseModal = (props) => {
               Category
             </Form.Label>
             <Col sm={5}>
-              <Form.Select name='category' aria-label='Default select example'>
-                {record.transaction === 'income'
+              <Form.Select
+                name='category'
+                aria-label='Default select example'
+                defaultValue={record.category}
+              >
+                {transaction === 'income'
                   ? incomeOption.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -132,4 +136,4 @@ const ExpenseModal = (props) => {
   );
 };
 
-export default ExpenseModal;
+export default TransactionsModal;

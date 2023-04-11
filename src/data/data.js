@@ -85,7 +85,7 @@ export const transactions = [
     date: '2023-03-06T21:16',
     createdTs: '2023-03-06T21:16',
     amount: 1000,
-    category: 'Credits',
+    category: 'credits',
     note: 'friend',
     description: '',
   },

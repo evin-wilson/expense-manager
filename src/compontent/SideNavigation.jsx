@@ -4,12 +4,12 @@ import Container from 'react-bootstrap/Container';
 import './SideNavigation.css';
 import { Button } from 'react-bootstrap';
 import { useState } from 'react';
-import ExpenseModal from './ExpenseModal';
-import record from '../data/record';
+import TransactionsModal from './TransactionsModal';
+import Record from '../data/Record';
 
 const SideNavigation = () => {
   const [modalShow, setModalShow] = useState(false);
-  const newrecord = record;
+  const newrecord = Record;
   newrecord.note = '';
   newrecord.amount = 0.0;
 
@@ -33,7 +33,7 @@ const SideNavigation = () => {
       <hr />
       <Nav className='flex-column p-3' style={{ width: '100%' }}>
         <Button onClick={() => setModalShow(true)}>Add Expense</Button>
-        <ExpenseModal
+        <TransactionsModal
           show={modalShow}
           onHide={() => setModalShow(false)}
           record={newrecord}

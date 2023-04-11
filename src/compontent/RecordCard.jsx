@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import { Table } from 'react-bootstrap';
 import { useState } from 'react';
-import ExpenseModal from './ExpenseModal';
+import TransactionsModal from './TransactionsModal';
 
 const getTotalIncomeAndExpense = (records) => {
   let income = 0.0;
@@ -18,7 +18,14 @@ const getTotalIncomeAndExpense = (records) => {
 
 function RecordCard({ date, records }) {
   const [modalShow, setModalShow] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const { income, expense } = getTotalIncomeAndExpense(records);
+
+  const handleRowClick = (record) => {
+    setSelectedRecord(record);
+    setModalShow(true);
+  };
+
   return (
     <Card className='mb-3'>
       <Card.Header className='d-flex justify-content-between'>
@@ -41,7 +48,7 @@ function RecordCard({ date, records }) {
                     ? { border: '2px solid green' }
                     : { border: '2px solid red' }
                 }
-                onClick={() => setModalShow(true)}
+                onClick={() => handleRowClick(record)}
               >
                 <td style={{ width: '25%' }}>{record.date}</td>
                 <td style={{ width: '25%' }}>{record.amount}</td>
@@ -52,7 +59,11 @@ function RecordCard({ date, records }) {
           </tbody>
         </Table>
         {modalShow && (
-          <ExpenseModal show={modalShow} onHide={() => setModalShow(false)} />
+          <TransactionsModal
+            show={modalShow}
+            record={selectedRecord}
+            onHide={() => setModalShow(false)}
+          />
         )}
       </Card.Body>
     </Card>

@@ -13,7 +13,7 @@ const getIsoDateTime = () => {
   return isoDateTime;
 };
 
-const record = {
+const Record = {
   transaction: 'expense',
   date: getIsoDateTime(),
   createdTs: getIsoDateTime(),
@@ -23,4 +23,4 @@ const record = {
   description: '',
 };
 
-export default record;
+export default Record;
