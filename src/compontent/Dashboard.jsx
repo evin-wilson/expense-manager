@@ -1,9 +1,13 @@
-import './Dashboard.css';
+import React from 'react';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS } from 'chart.js/auto';
 
-const Dashboard = () => {
+const Dashboard = ({ chartData }) => {
   return (
     <>
-      <div className='graph'>Graph will be here</div>
+      <div className='graph'>
+        <Pie data={chartData} />
+      </div>
       <p></p>
     </>
   );
