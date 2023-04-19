@@ -1,6 +1,7 @@
+import { useContext } from 'react';
 import Dashboard from '../compontent/Dashboard';
 import RecordCard from '../compontent/RecordCard';
-import { transactions } from '../data/data';
+import { AppContext } from '../compontent/context/AppContext';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -8,17 +9,18 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('en-US', options);
 };
 
-const groupedTransactions = transactions.reduce((acc, transaction) => {
-  const date = formatDate(transaction.date);
-  if (!acc[date]) {
-    acc[date] = [transaction];
-  } else {
-    acc[date].push(transaction);
-  }
-  return acc;
-}, {});
+const groupedTransactions = (transactions) =>
+  transactions.reduce((acc, transaction) => {
+    const date = formatDate(transaction.date);
+    if (!acc[date]) {
+      acc[date] = [transaction];
+    } else {
+      acc[date].push(transaction);
+    }
+    return acc;
+  }, {});
 
-const getcategoryDataForChart = () => {
+const getcategoryDataForChart = (transactions) => {
   const categoryTotals = transactions.reduce((totals, transaction) => {
     if (transaction.transaction === 'expense') {
       totals[transaction.category] = totals[transaction.category] || 0;
@@ -47,7 +49,7 @@ const getcategoryDataForChart = () => {
   return categoryData;
 };
 
-const getTransactionDataForChart = () => {
+const getTransactionDataForChart = (transactions) => {
   // Calculate the total income and expenses
   const income = transactions.reduce((total, transaction) => {
     return transaction.transaction === 'income'
@@ -72,18 +74,22 @@ const getTransactionDataForChart = () => {
 
   return incomeVsExpensesData;
 };
+
 const Home = () => {
+  const { transactionrecords } = useContext(AppContext);
   return (
     <>
       <div className='d-flex justify-content-around'>
-        <Dashboard chartData={getcategoryDataForChart()} />
-        <Dashboard chartData={getTransactionDataForChart()} />
-        <Dashboard chartData={getcategoryDataForChart()} />
+        <Dashboard chartData={getcategoryDataForChart(transactionrecords)} />
+        <Dashboard chartData={getTransactionDataForChart(transactionrecords)} />
+        <Dashboard chartData={getcategoryDataForChart(transactionrecords)} />
       </div>
       <br />
-      {Object.entries(groupedTransactions).map(([date, records]) => (
-        <RecordCard key={date} date={date} records={records} />
-      ))}
+      {Object.entries(groupedTransactions(transactionrecords)).map(
+        ([date, records]) => (
+          <RecordCard key={date} date={date} records={records} />
+        )
+      )}
     </>
   );
 };
