@@ -1,15 +1,17 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { incomeOption, expenseOption } from '../data/data';
+import AppContext from '../compontent/context/AppContext';
 
 const TransactionsModal = (props) => {
   const record = props.record;
   const [transaction, settransaction] = useState(record.transaction);
   const formRef = useRef(null);
+  const { addTransaction, transactionrecords } = useContext(AppContext);
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -21,6 +23,17 @@ const TransactionsModal = (props) => {
       description: formData.get('description'),
       note: formData.get('note'),
     });
+
+    addTransaction({
+      transaction: transaction,
+      date: formData.get('date'),
+      createdTs: formData.get('date'),
+      amount: parseInt(formData.get('amount')),
+      category: formData.get('category'),
+      note: formData.get('note'),
+      description: formData.get('description'),
+    });
+    console.log(transactionrecords);
     props.onHide();
   };
 

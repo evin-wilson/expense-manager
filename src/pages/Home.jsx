@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import Dashboard from '../compontent/Dashboard';
 import RecordCard from '../compontent/RecordCard';
-import { AppContext } from '../compontent/context/AppContext';
+import AppContext from '../compontent/context/AppContext';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
