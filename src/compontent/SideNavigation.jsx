@@ -9,9 +9,7 @@ import Record from '../data/Record';
 
 const SideNavigation = () => {
   const [modalShow, setModalShow] = useState(false);
-  const newrecord = Record;
-  newrecord.note = '';
-  newrecord.amount = 0.0;
+  const record = new Record();
 
   return (
     <Navbar
@@ -36,7 +34,7 @@ const SideNavigation = () => {
         <TransactionsModal
           show={modalShow}
           onHide={() => setModalShow(false)}
-          record={newrecord}
+          record={record}
         />
         <br />
         <Nav.Item>

@@ -13,14 +13,16 @@ const getIsoDateTime = () => {
   return isoDateTime;
 };
 
-const Record = {
-  transaction: 'expense',
-  date: getIsoDateTime(),
-  createdTs: getIsoDateTime(),
-  amount: 10,
-  category: 'food',
-  note: '',
-  description: '',
-};
+class Record {
+  constructor(transaction, date, amount, category, note, description) {
+    this.transaction = transaction || 'expense';
+    this.date = date || getIsoDateTime();
+    this.createdTs = getIsoDateTime();
+    this.amount = amount || 0.0;
+    this.category = category || '';
+    this.note = note || '';
+    this.description = description || '';
+  }
+}
 
 export default Record;
