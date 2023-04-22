@@ -16,6 +16,16 @@ const getTotalIncomeAndExpense = (records) => {
   return { income, expense };
 };
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const options = {
+    day: 'numeric',
+    month: 'long',
+    weekday: 'long',
+  };
+  return date.toLocaleDateString('en-US', options);
+};
+
 function RecordCard({ date, records }) {
   const [modalShow, setModalShow] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
@@ -29,7 +39,7 @@ function RecordCard({ date, records }) {
   return (
     <Card className='mb-3'>
       <Card.Header className='d-flex justify-content-between'>
-        <div>{date}</div>
+        <div>{formatDate(date)}</div>
         <div className='ms-auto'>
           <span className='text-success '>{`+ ${income.toFixed(2)} Rs`}</span>
           <span className='text-danger ms-3'>{`- ${expense.toFixed(

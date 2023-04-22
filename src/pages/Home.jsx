@@ -1,82 +1,74 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Dashboard from '../compontent/Dashboard';
 import RecordCard from '../compontent/RecordCard';
 import AppContext from '../compontent/context/AppContext';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import {
+  getTransactionDataForChart,
+  getcategoryDataForChart,
+} from '../utilities/chartData';
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const options = { day: 'numeric', month: 'long', year: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
-};
+/**
+ * this function is to get transactions record group by month and date
+ * return value is a map with month (yyyy-mm) as key and
+ * value is a map of date as key and Array of records as value
+ * Map<month, Map<date, List(records)>>
+ */
+function groupedTransactions(transactions) {
+  const transactionMap = new Map();
 
-const groupedTransactions = (transactions) =>
-  transactions.reduce((acc, transaction) => {
-    const date = formatDate(transaction.date);
-    if (!acc[date]) {
-      acc[date] = [transaction];
-    } else {
-      acc[date].push(transaction);
+  transactions.forEach((transaction, index) => {
+    const month = transaction.date.slice(0, 7); // extract month from the date
+    const date = transaction.date.slice(0, 10); // extract date from the date
+
+    if (!transactionMap.has(month)) {
+      transactionMap.set(month, new Map());
     }
-    return acc;
-  }, {});
 
-const getcategoryDataForChart = (transactions) => {
-  const categoryTotals = transactions.reduce((totals, transaction) => {
-    if (transaction.transaction === 'expense') {
-      totals[transaction.category] = totals[transaction.category] || 0;
-      totals[transaction.category] += transaction.amount;
+    if (!transactionMap.get(month).has(date)) {
+      transactionMap.get(month).set(date, []);
     }
-    return totals;
-  }, {});
 
-  const categoryData = {
-    labels: Object.keys(categoryTotals),
-    datasets: [
-      {
-        data: Object.values(categoryTotals),
-        backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#00FF7F',
-          '#8B008B',
-          '#FF4500',
-        ],
-      },
-    ],
-  };
+    transactionMap
+      .get(month)
+      .get(date)
+      .push({ ...transaction, index });
+  });
+  // console.log(transactionMap);
+  return transactionMap;
+}
 
-  return categoryData;
-};
-
-const getTransactionDataForChart = (transactions) => {
-  // Calculate the total income and expenses
-  const income = transactions.reduce((total, transaction) => {
-    return transaction.transaction === 'income'
-      ? total + transaction.amount
-      : total;
-  }, 0);
-  const expenses = transactions.reduce((total, transaction) => {
-    return transaction.transaction === 'expense'
-      ? total + transaction.amount
-      : total;
-  }, 0);
-
-  const incomeVsExpensesData = {
-    labels: ['Income', 'Expenses'],
-    datasets: [
-      {
-        data: [income, expenses],
-        backgroundColor: ['#36A2EB', '#FF6384'],
-      },
-    ],
-  };
-
-  return incomeVsExpensesData;
+const MonthSelector = ({ month, setMonth }) => {
+  return (
+    <ButtonGroup>
+      <Button
+        onClick={() => setMonth(new Date(month.setMonth(month.getMonth() - 1)))}
+      >
+        &lt;
+      </Button>
+      <Button>
+        {month.toLocaleDateString('en-US', {
+          month: 'long',
+          year: 'numeric',
+        })}
+      </Button>
+      <Button
+        onClick={() => setMonth(new Date(month.setMonth(month.getMonth() + 1)))}
+      >
+        &gt;
+      </Button>
+    </ButtonGroup>
+  );
 };
 
 const Home = () => {
   const { transactionrecords } = useContext(AppContext);
+  const [monthSelected, setMonthSelected] = useState(new Date());
+  const recordMap = groupedTransactions(transactionrecords);
+  const monthRecordMap = recordMap.get(
+    monthSelected.toISOString().substring(0, 7)
+  );
+
   return (
     <>
       <div className='d-flex justify-content-around'>
@@ -85,10 +77,13 @@ const Home = () => {
         <Dashboard chartData={getcategoryDataForChart(transactionrecords)} />
       </div>
       <br />
-      {Object.entries(groupedTransactions(transactionrecords)).map(
-        ([date, records]) => (
+      <MonthSelector month={monthSelected} setMonth={setMonthSelected} />
+      {monthRecordMap !== undefined ? (
+        [...monthRecordMap.entries()].map(([date, records]) => (
           <RecordCard key={date} date={date} records={records} />
-        )
+        ))
+      ) : (
+        <h2 className='text-center'>No records found.</h2>
       )}
     </>
   );
