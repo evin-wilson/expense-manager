@@ -1,6 +1,7 @@
-import Card from 'react-bootstrap/Card';
-import { Table } from 'react-bootstrap';
 import { useState } from 'react';
+import { Table } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+
 import TransactionsModal from './TransactionsModal';
 
 const getTotalIncomeAndExpense = (records) => {
@@ -42,9 +43,7 @@ function RecordCard({ date, records }) {
         <div>{formatDate(date)}</div>
         <div className='ms-auto'>
           <span className='text-success '>{`+ ${income.toFixed(2)} Rs`}</span>
-          <span className='text-danger ms-3'>{`- ${expense.toFixed(
-            2
-          )} Rs`}</span>
+          <span className='text-danger ms-3'>{`- ${expense.toFixed(2)} Rs`}</span>
         </div>
       </Card.Header>
       <Card.Body>

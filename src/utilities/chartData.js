@@ -12,14 +12,7 @@ const getcategoryDataForChart = (transactions) => {
     datasets: [
       {
         data: Object.values(categoryTotals),
-        backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#00FF7F',
-          '#8B008B',
-          '#FF4500',
-        ],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#00FF7F', '#8B008B', '#FF4500'],
       },
     ],
   };
@@ -30,14 +23,10 @@ const getcategoryDataForChart = (transactions) => {
 const getTransactionDataForChart = (transactions) => {
   // Calculate the total income and expenses
   const income = transactions.reduce((total, transaction) => {
-    return transaction.transaction === 'income'
-      ? total + transaction.amount
-      : total;
+    return transaction.transaction === 'income' ? total + transaction.amount : total;
   }, 0);
   const expenses = transactions.reduce((total, transaction) => {
-    return transaction.transaction === 'expense'
-      ? total + transaction.amount
-      : total;
+    return transaction.transaction === 'expense' ? total + transaction.amount : total;
   }, 0);
 
   const incomeVsExpensesData = {

@@ -1,12 +1,13 @@
+import { useContext, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import { useState, useRef, useContext } from 'react';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { incomeOption, expenseOption } from '../data/data';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+
 import AppContext from '../compontent/context/AppContext';
 import Record from '../data/Record';
+import { expenseOption, incomeOption } from '../data/data';
 
 const TransactionsModal = (props) => {
   const record = props.record;
@@ -17,13 +18,6 @@ const TransactionsModal = (props) => {
   const handleSave = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
-    console.log({
-      date: formData.get('date'),
-      amount: formData.get('amount'),
-      category: formData.get('category'),
-      description: formData.get('description'),
-      note: formData.get('note'),
-    });
 
     addTransaction(
       new Record(
@@ -66,11 +60,7 @@ const TransactionsModal = (props) => {
               Date
             </Form.Label>
             <Col sm={7}>
-              <Form.Control
-                name='date'
-                type='datetime-local'
-                defaultValue={record.date}
-              />
+              <Form.Control name='date' type='datetime-local' defaultValue={record.date} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='amount'>
@@ -115,12 +105,7 @@ const TransactionsModal = (props) => {
               Note
             </Form.Label>
             <Col sm={5}>
-              <Form.Control
-                type='text'
-                name='note'
-                placeholder='Note'
-                defaultValue={record.note}
-              />
+              <Form.Control type='text' name='note' placeholder='Note' defaultValue={record.note} />
             </Col>
           </Form.Group>
           <Form.Group className='mb-3' controlId='description'>

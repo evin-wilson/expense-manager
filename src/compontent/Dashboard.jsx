@@ -1,6 +1,8 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto'; // !!! important for the chart to work
+
+// !!! important for the chart to work
+import { Chart as ChartJS } from 'chart.js/auto';
 
 const Dashboard = ({ chartData }) => {
   return (

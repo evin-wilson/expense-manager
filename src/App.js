@@ -1,10 +1,11 @@
-import Navigations from './compontent/Navigations';
-import Home from './pages/Home';
-import { AppProvider } from './compontent/context/AppContext';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Record from './pages/Record';
-import Analytics from './pages/Analytics';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import './App.css';
+import Navigations from './compontent/Navigations';
+import { AppProvider } from './compontent/context/AppContext';
+import Analytics from './pages/Analytics';
+import Home from './pages/Home';
+import Record from './pages/Record';
 
 function App() {
   return (

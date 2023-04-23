@@ -1,8 +1,9 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Button, ButtonGroup } from 'react-bootstrap';
+
 import Dashboard from '../compontent/Dashboard';
 import RecordCard from '../compontent/RecordCard';
 import AppContext from '../compontent/context/AppContext';
-import { Button, ButtonGroup } from 'react-bootstrap';
 import {
   getTransactionDataForChart,
   getcategoryDataForChart,
@@ -40,7 +41,7 @@ function groupedTransactions(transactions) {
 
 const MonthSelector = ({ month, setMonth }) => {
   return (
-    <ButtonGroup>
+    <ButtonGroup className='mb-3'>
       <Button
         onClick={() => setMonth(new Date(month.setMonth(month.getMonth() - 1)))}
       >
@@ -65,12 +66,15 @@ const Home = () => {
   const { transactionrecords } = useContext(AppContext);
   const [monthSelected, setMonthSelected] = useState(new Date());
   const [recordMap, setrecordMap] = useState(new Map());
-  const [flattenedTransactionRecords, setFlattenedTransactionRecords] = useState([]);
+  const [flattenedTransactionRecords, setFlattenedTransactionRecords] =
+    useState([]);
 
   useEffect(() => {
     let updatedRecordMap = groupedTransactions(transactionrecords);
 
-    let monthRecordMap = updatedRecordMap.get(monthSelected.toISOString().substring(0, 7));
+    let monthRecordMap = updatedRecordMap.get(
+      monthSelected.toISOString().substring(0, 7)
+    );
     let flattenedRecords = Array.from(monthRecordMap.values()).reduce(
       (acc, val) => acc.concat(val),
       []
@@ -79,13 +83,21 @@ const Home = () => {
     setFlattenedTransactionRecords(flattenedRecords);
   }, [monthSelected, transactionrecords]);
 
-  const monthRecordMap = recordMap.get(monthSelected.toISOString().substring(0, 7));
+  const monthRecordMap = recordMap.get(
+    monthSelected.toISOString().substring(0, 7)
+  );
   return (
     <>
       <div className='d-flex justify-content-around'>
-        <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
-        <Dashboard chartData={getTransactionDataForChart(flattenedTransactionRecords)} />
-        <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+        <Dashboard
+          chartData={getcategoryDataForChart(flattenedTransactionRecords)}
+        />
+        <Dashboard
+          chartData={getTransactionDataForChart(flattenedTransactionRecords)}
+        />
+        <Dashboard
+          chartData={getcategoryDataForChart(flattenedTransactionRecords)}
+        />
       </div>
       <br />
       <MonthSelector month={monthSelected} setMonth={setMonthSelected} />
