@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import { useState } from 'react';
 import TransactionsModal from './TransactionsModal';
 import Record from '../data/Record';
+import { Link } from 'react-router-dom';
 
 const SideNavigation = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -38,13 +39,19 @@ const SideNavigation = () => {
         />
         <br />
         <Nav.Item>
-          <Nav.Link href='#'>Dashboard</Nav.Link>
+          <Nav.Link as={Link} to='/'>
+            Dashboard
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href='#'>Income</Nav.Link>
+          <Nav.Link as={Link} to='/record'>
+            Record
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href='#'>Expense</Nav.Link>
+          <Nav.Link as={Link} to='/analytics'>
+            Analytics
+          </Nav.Link>
         </Nav.Item>
         <hr style={{ color: 'white' }} />
         <Nav.Item>

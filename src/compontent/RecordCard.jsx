@@ -61,7 +61,7 @@ function RecordCard({ date, records }) {
                 onClick={() => handleRowClick(record)}
               >
                 <td style={{ width: '25%' }}>{record.date}</td>
-                <td style={{ width: '25%' }}>{record.amount}</td>
+                <td style={{ width: '25%' }}>{`${record.amount} Rs`}</td>
                 <td style={{ width: '25%' }}>{record.category}</td>
                 <td style={{ width: '25%' }}>{record.note}</td>
               </tr>
