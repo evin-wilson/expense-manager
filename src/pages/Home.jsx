@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Dashboard from '../compontent/Dashboard';
 import RecordCard from '../compontent/RecordCard';
 import AppContext from '../compontent/context/AppContext';
@@ -64,17 +64,28 @@ const MonthSelector = ({ month, setMonth }) => {
 const Home = () => {
   const { transactionrecords } = useContext(AppContext);
   const [monthSelected, setMonthSelected] = useState(new Date());
-  const recordMap = groupedTransactions(transactionrecords);
-  const monthRecordMap = recordMap.get(
-    monthSelected.toISOString().substring(0, 7)
-  );
+  const [recordMap, setrecordMap] = useState(new Map());
+  const [flattenedTransactionRecords, setFlattenedTransactionRecords] = useState([]);
 
+  useEffect(() => {
+    let updatedRecordMap = groupedTransactions(transactionrecords);
+
+    let monthRecordMap = updatedRecordMap.get(monthSelected.toISOString().substring(0, 7));
+    let flattenedRecords = Array.from(monthRecordMap.values()).reduce(
+      (acc, val) => acc.concat(val),
+      []
+    );
+    setrecordMap(updatedRecordMap);
+    setFlattenedTransactionRecords(flattenedRecords);
+  }, [monthSelected, transactionrecords]);
+
+  const monthRecordMap = recordMap.get(monthSelected.toISOString().substring(0, 7));
   return (
     <>
       <div className='d-flex justify-content-around'>
-        <Dashboard chartData={getcategoryDataForChart(transactionrecords)} />
-        <Dashboard chartData={getTransactionDataForChart(transactionrecords)} />
-        <Dashboard chartData={getcategoryDataForChart(transactionrecords)} />
+        <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+        <Dashboard chartData={getTransactionDataForChart(flattenedTransactionRecords)} />
+        <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
       </div>
       <br />
       <MonthSelector month={monthSelected} setMonth={setMonthSelected} />

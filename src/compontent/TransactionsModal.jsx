@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { incomeOption, expenseOption } from '../data/data';
 import AppContext from '../compontent/context/AppContext';
+import Record from '../data/Record';
 
 const TransactionsModal = (props) => {
   const record = props.record;
@@ -24,26 +25,21 @@ const TransactionsModal = (props) => {
       note: formData.get('note'),
     });
 
-    addTransaction({
-      transaction: transaction,
-      date: formData.get('date'),
-      createdTs: formData.get('date'),
-      amount: parseInt(formData.get('amount')),
-      category: formData.get('category'),
-      note: formData.get('note'),
-      description: formData.get('description'),
-    });
-    console.log(transactionrecords);
+    addTransaction(
+      new Record(
+        transaction,
+        formData.get('date'),
+        parseInt(formData.get('amount')),
+        formData.get('category'),
+        formData.get('note'),
+        formData.get('description')
+      )
+    );
     props.onHide();
   };
 
   return (
-    <Modal
-      {...props}
-      size='md'
-      aria-labelledby='contained-modal-title-vcenter'
-      centered
-    >
+    <Modal {...props} size='md' aria-labelledby='contained-modal-title-vcenter' centered>
       <Modal.Header closeButton>
         <Button
           variant={transaction === 'income' ? 'success' : 'outline-success'}
