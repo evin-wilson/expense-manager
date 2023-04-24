@@ -1,115 +1,30 @@
-import { useContext, useEffect, useState } from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import React from 'react';
 
-import Dashboard from '../compontent/Dashboard';
-import RecordCard from '../compontent/RecordCard';
-import AppContext from '../compontent/context/AppContext';
-import {
-  getTransactionDataForChart,
-  getcategoryDataForChart,
-} from '../utilities/chartData';
+import './Home.css';
 
-/**
- * this function is to get transactions record group by month and date
- * return value is a map with month (yyyy-mm) as key and
- * value is a map of date as key and Array of records as value
- * Map<month, Map<date, List(records)>>
- */
-function groupedTransactions(transactions) {
-  const transactionMap = new Map();
-
-  transactions.forEach((transaction, index) => {
-    const month = transaction.date.slice(0, 7); // extract month from the date
-    const date = transaction.date.slice(0, 10); // extract date from the date
-
-    if (!transactionMap.has(month)) {
-      transactionMap.set(month, new Map());
-    }
-
-    if (!transactionMap.get(month).has(date)) {
-      transactionMap.get(month).set(date, []);
-    }
-
-    transactionMap
-      .get(month)
-      .get(date)
-      .push({ ...transaction, index });
-  });
-  // console.log(transactionMap);
-  return transactionMap;
-}
-
-const MonthSelector = ({ month, setMonth }) => {
-  return (
-    <ButtonGroup className='mb-3'>
-      <Button
-        onClick={() => setMonth(new Date(month.setMonth(month.getMonth() - 1)))}
-      >
-        &lt;
-      </Button>
-      <Button>
-        {month.toLocaleDateString('en-US', {
-          month: 'long',
-          year: 'numeric',
-        })}
-      </Button>
-      <Button
-        onClick={() => setMonth(new Date(month.setMonth(month.getMonth() + 1)))}
-      >
-        &gt;
-      </Button>
-    </ButtonGroup>
-  );
-};
-
-const Home = () => {
-  const { transactionrecords } = useContext(AppContext);
-  const [monthSelected, setMonthSelected] = useState(new Date());
-  const [recordMap, setrecordMap] = useState(new Map());
-  const [flattenedTransactionRecords, setFlattenedTransactionRecords] =
-    useState([]);
-
-  useEffect(() => {
-    let updatedRecordMap = groupedTransactions(transactionrecords);
-
-    let monthRecordMap = updatedRecordMap.get(
-      monthSelected.toISOString().substring(0, 7)
-    );
-    let flattenedRecords = Array.from(monthRecordMap.values()).reduce(
-      (acc, val) => acc.concat(val),
-      []
-    );
-    setrecordMap(updatedRecordMap);
-    setFlattenedTransactionRecords(flattenedRecords);
-  }, [monthSelected, transactionrecords]);
-
-  const monthRecordMap = recordMap.get(
-    monthSelected.toISOString().substring(0, 7)
-  );
+function Home() {
   return (
     <>
-      <div className='d-flex justify-content-around'>
-        <Dashboard
-          chartData={getcategoryDataForChart(flattenedTransactionRecords)}
-        />
-        <Dashboard
-          chartData={getTransactionDataForChart(flattenedTransactionRecords)}
-        />
-        <Dashboard
-          chartData={getcategoryDataForChart(flattenedTransactionRecords)}
-        />
+      <h1>This Month</h1>
+      <section className='d-flex gap-5 pt-4 month-view'>
+        <div>
+          <p className='mb-1'>Income:</p>
+          <p className='fs-2'>500 Rs</p>
+        </div>
+        <div>
+          <p className='mb-1'>Expense:</p>
+          <p className='fs-2'>500 Rs</p>
+        </div>
+        <div>
+          <p className='mb-1'>Savings:</p>
+          <p className='fs-2'>500 Rs</p>
+        </div>
+      </section>
+      <div style={{ border: 'solid 1px black', width: '75%', height: '350px', marginTop: '30px' }}>
+        graph
       </div>
-      <br />
-      <MonthSelector month={monthSelected} setMonth={setMonthSelected} />
-      {monthRecordMap !== undefined ? (
-        [...monthRecordMap.entries()].map(([date, records]) => (
-          <RecordCard key={date} date={date} records={records} />
-        ))
-      ) : (
-        <h2 className='text-center'>No records found.</h2>
-      )}
     </>
   );
-};
+}
 
 export default Home;

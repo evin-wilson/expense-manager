@@ -1,0 +1,6 @@
+.month-view div {
+  width: 300px;
+  padding: 10px;
+  padding-left: 40px;
+  border: solid 1px black;
+}

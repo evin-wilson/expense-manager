@@ -22,31 +22,40 @@ const SideNavigation = () => {
         </Navbar.Brand>
       </Container>
       <hr />
-      <Nav className='flex-column p-3' style={{ width: '100%' }}>
+      <Nav
+        variant='pills'
+        defaultActiveKey='/'
+        className='flex-column p-3'
+        style={{ width: '100%' }}
+      >
         <Button onClick={() => setModalShow(true)}>Add Expense</Button>
         <TransactionsModal show={modalShow} onHide={() => setModalShow(false)} record={record} />
         <br />
         <Nav.Item>
-          <Nav.Link as={Link} to='/'>
+          <Nav.Link as={Link} to='/' eventKey='dashboard'>
             Dashboard
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={Link} to='/record'>
+          <Nav.Link as={Link} eventKey='record' to='/record'>
             Record
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={Link} to='/analytics'>
+          <Nav.Link as={Link} eventKey='analytics' to='/analytics'>
             Analytics
           </Nav.Link>
         </Nav.Item>
         <hr style={{ color: 'white' }} />
         <Nav.Item>
-          <Nav.Link href='#'>Bucket 1</Nav.Link>
+          <Nav.Link eventKey='link-4' href='#'>
+            Bucket 1
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href='#'>Bucket 2</Nav.Link>
+          <Nav.Link eventKey='link-2' href='#'>
+            Bucket 2
+          </Nav.Link>
         </Nav.Item>
       </Nav>
     </Navbar>
