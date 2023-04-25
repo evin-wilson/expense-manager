@@ -4,37 +4,8 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 import Dashboard from '../compontent/Dashboard';
 import RecordCard from '../compontent/RecordCard';
 import AppContext from '../compontent/context/AppContext';
+import { groupedTransactions } from '../utilities/calculation';
 import { getTransactionDataForChart, getcategoryDataForChart } from '../utilities/chartData';
-
-/**
- * this function is to get transactions record group by month and date
- * return value is a map with month (yyyy-mm) as key and
- * value is a map of date as key and Array of records as value
- * Map<month, Map<date, List(records)>>
- */
-function groupedTransactions(transactions) {
-  const transactionMap = new Map();
-
-  transactions.forEach((transaction, index) => {
-    const month = transaction.date.slice(0, 7); // extract month from the date
-    const date = transaction.date.slice(0, 10); // extract date from the date
-
-    if (!transactionMap.has(month)) {
-      transactionMap.set(month, new Map());
-    }
-
-    if (!transactionMap.get(month).has(date)) {
-      transactionMap.get(month).set(date, []);
-    }
-
-    transactionMap
-      .get(month)
-      .get(date)
-      .push({ ...transaction, index });
-  });
-  // console.log(transactionMap);
-  return transactionMap;
-}
 
 const MonthSelector = ({ month, setMonth }) => {
   return (
@@ -59,23 +30,33 @@ const Record = () => {
 
   useEffect(() => {
     let updatedRecordMap = groupedTransactions(transactionrecords);
+    setrecordMap(updatedRecordMap);
 
     let monthRecordMap = updatedRecordMap.get(monthSelected.toISOString().substring(0, 7));
-    let flattenedRecords = Array.from(monthRecordMap.values()).reduce(
-      (acc, val) => acc.concat(val),
-      []
-    );
-    setrecordMap(updatedRecordMap);
-    setFlattenedTransactionRecords(flattenedRecords);
+    if (monthRecordMap !== undefined) {
+      let flattenedRecords = Array.from(monthRecordMap.values()).reduce(
+        (acc, val) => acc.concat(val),
+        []
+      );
+      setFlattenedTransactionRecords(flattenedRecords);
+    } else {
+      setFlattenedTransactionRecords([]);
+    }
   }, [monthSelected, transactionrecords]);
 
   const monthRecordMap = recordMap.get(monthSelected.toISOString().substring(0, 7));
   return (
     <>
       <div className='d-flex justify-content-around'>
-        <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
-        <Dashboard chartData={getTransactionDataForChart(flattenedTransactionRecords)} />
-        <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+        {flattenedTransactionRecords.length !== 0 ? (
+          <>
+            <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+            <Dashboard chartData={getTransactionDataForChart(flattenedTransactionRecords)} />
+            <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+          </>
+        ) : (
+          <div>No data...</div>
+        )}
       </div>
       <br />
       <MonthSelector month={monthSelected} setMonth={setMonthSelected} />

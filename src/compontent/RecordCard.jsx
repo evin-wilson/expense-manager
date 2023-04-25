@@ -2,20 +2,8 @@ import { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 
+import { getTotalIncomeAndExpense } from '../utilities/calculation';
 import TransactionsModal from './TransactionsModal';
-
-const getTotalIncomeAndExpense = (records) => {
-  let income = 0.0;
-  let expense = 0.0;
-  records.map((record) => {
-    if (record.transaction === 'income') {
-      income += record.amount;
-    } else {
-      expense += record.amount;
-    }
-  });
-  return { income, expense };
-};
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);

@@ -1,23 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
+import AppContext from '../compontent/context/AppContext';
+import { getTotalIncomeAndExpense, groupedTransactions } from '../utilities/calculation';
 import './Home.css';
 
+const incomeAndExpense = (transactions, date) => {
+  const monthSelected = date.toISOString().substring(0, 7);
+  const recordsMap = groupedTransactions(transactions);
+  if (recordsMap.has(monthSelected)) {
+    const flattenedRecords = Array.from(recordsMap.get(monthSelected).values()).reduce(
+      (acc, val) => acc.concat(val),
+      []
+    );
+    return getTotalIncomeAndExpense(flattenedRecords);
+  } else {
+    return { income: 0, expense: 0 };
+  }
+};
+
 function Home() {
+  const [money, setMoney] = useState({});
+  const { transactionrecords } = useContext(AppContext);
+
+  useEffect(() => {
+    let updateMoney = incomeAndExpense(transactionrecords, new Date());
+    setMoney(updateMoney);
+  }, [transactionrecords]);
+
   return (
     <>
       <h1>This Month</h1>
-      <section className='d-flex gap-5 pt-4 month-view'>
+      <section className='d-flex gap-4 pt-4 month-view'>
         <div>
-          <p className='mb-1'>Income:</p>
-          <p className='fs-2'>500 Rs</p>
+          <p className='mb-1'>Income (annuualy):</p>
+          <p className='fs-2'>{`${money.income} Rs`}</p>
+        </div>
+        <div>
+          <p className='mb-1'>Income (monthly):</p>
+          <p className='fs-2'>{`${money.income} Rs`}</p>
         </div>
         <div>
           <p className='mb-1'>Expense:</p>
-          <p className='fs-2'>500 Rs</p>
+          <p className='fs-2'>{`${money.expense} Rs`}</p>
         </div>
         <div>
           <p className='mb-1'>Savings:</p>
-          <p className='fs-2'>500 Rs</p>
+          <p className='fs-2'>{`${money.income - money.expense} Rs`}</p>
         </div>
       </section>
       <div style={{ border: 'solid 1px black', width: '75%', height: '350px', marginTop: '30px' }}>
