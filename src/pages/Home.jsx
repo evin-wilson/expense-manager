@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+import { LineChart } from '../compontent/LineChart';
 import AppContext from '../compontent/context/AppContext';
 import { getTotalIncomeAndExpense, groupedTransactions } from '../utilities/calculation';
 import './Home.css';
@@ -50,8 +51,15 @@ function Home() {
           <p className='fs-2'>{`${money.income - money.expense} Rs`}</p>
         </div>
       </section>
-      <div style={{ border: 'solid 1px black', width: '75%', height: '350px', marginTop: '30px' }}>
-        graph
+      <div
+        style={{
+          border: 'solid 1px black',
+          maxWidth: '70%',
+          maxHeight: '350px',
+          marginTop: '30px',
+        }}
+      >
+        <LineChart />
       </div>
     </>
   );
