@@ -1,3 +1,5 @@
+import { getTotalIncomeAndExpense, groupByMonth } from './calculation';
+
 const getcategoryDataForChart = (transactions) => {
   const categoryTotals = transactions.reduce((totals, transaction) => {
     if (transaction.transaction === 'expense') {
@@ -42,4 +44,58 @@ const getTransactionDataForChart = (transactions) => {
   return incomeVsExpensesData;
 };
 
+const labels = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+export const lineChartDataForTransactions = (transactions) => {
+  const result = new Map();
+
+  // create empty map with income and expense as 0 for each month
+  for (const month of labels) {
+    result.set(month, { income: 0, expense: 0 });
+  }
+
+  // Calculate income and expense for each month
+  const monthRecord = groupByMonth(transactions);
+
+  for (const [month, records] of monthRecord.entries()) {
+    // change the 'YYYY=MM' date format to alphabetic
+    let monthKey = new Date(month).toLocaleDateString('en-US', { month: 'long' });
+    let { income, expense } = getTotalIncomeAndExpense(records);
+    result.get(monthKey).income = income;
+    result.get(monthKey).expense = expense;
+  }
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Income',
+        data: [...result.values()].map(({ income }) => income),
+        borderColor: 'rgb(36, 115, 16)',
+        backgroundColor: 'rgba(36, 115, 16, 0.5)',
+      },
+      {
+        label: 'Expense',
+        data: [...result.values()].map(({ expense }) => expense),
+        borderColor: 'rgb(245, 39, 39)',
+        backgroundColor: 'rgba(245, 39, 39, 0.5)',
+      },
+    ],
+  };
+
+  return data;
+};
 export { getcategoryDataForChart, getTransactionDataForChart };

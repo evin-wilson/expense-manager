@@ -46,3 +46,18 @@ export const groupedTransactions = (transactions) => {
   // console.log(transactionMap);
   return transactionMap;
 };
+
+export const groupByMonth = (transactions) => {
+  const transactionMap = new Map();
+
+  transactions.forEach((transaction, index) => {
+    const month = transaction.date.slice(0, 7); // extract month from the date
+
+    if (!transactionMap.has(month)) {
+      transactionMap.set(month, []);
+    }
+
+    transactionMap.get(month).push({ ...transaction, index });
+  });
+  return transactionMap;
+};
