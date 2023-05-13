@@ -22,12 +22,21 @@ const MonthSelector = ({ month, setMonth }) => {
   );
 };
 
+const firstDayOfMonth = (date) => {
+  let temp = new Date(date.getFullYear(), date.getMonth(), 1);
+  const year = temp.getFullYear();
+  const month = (temp.getMonth() + 1).toString().padStart(2, '0');
+  const day = temp.getDate().toString().padStart(2, '0');
+  const dateString = `${year}-${month}-${day}`;
+  return dateString;
+};
+
 const Record = () => {
   const { transactionrecords } = useContext(AppContext);
   const [monthSelected, setMonthSelected] = useState(new Date());
   const [recordMap, setrecordMap] = useState(new Map());
   const [flattenedTransactionRecords, setFlattenedTransactionRecords] = useState([]);
-
+  const [carryOverAmount, setCarryOverAmount] = useState(0);
   useEffect(() => {
     let updatedRecordMap = groupedTransactions(transactionrecords);
     setrecordMap(updatedRecordMap);
@@ -44,7 +53,8 @@ const Record = () => {
     }
   }, [monthSelected, transactionrecords]);
 
-  const monthRecordMap = recordMap.get(monthSelected.toISOString().substring(0, 7));
+  const monthRecordMap = recordMap.get(monthSelected.toISOString().substring(0, 7)) || new Map();
+
   return (
     <>
       <div className='d-flex justify-content-around'>
@@ -60,13 +70,17 @@ const Record = () => {
       </div>
       <br />
       <MonthSelector month={monthSelected} setMonth={setMonthSelected} />
-      {monthRecordMap !== undefined ? (
-        [...monthRecordMap.entries()].map(([date, records]) => (
-          <RecordCard key={date} date={date} records={records} />
-        ))
-      ) : (
-        <h2 className='text-center'>No records found.</h2>
-      )}
+      {[...monthRecordMap.entries()].map(([date, records]) => (
+        <RecordCard key={date} date={date} records={records} carryover={carryOverAmount} />
+      ))}
+      {monthRecordMap.size === 0 ? (
+        <RecordCard
+          key={firstDayOfMonth(monthSelected)}
+          date={firstDayOfMonth(monthSelected)}
+          records={new Array()}
+          carryover={carryOverAmount}
+        />
+      ) : null}
     </>
   );
 };

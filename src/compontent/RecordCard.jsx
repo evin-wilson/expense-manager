@@ -15,7 +15,7 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('en-US', options);
 };
 
-function RecordCard({ date, records }) {
+function RecordCard({ date, records, carryover }) {
   const [modalShow, setModalShow] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const { income, expense } = getTotalIncomeAndExpense(records);
@@ -53,6 +53,13 @@ function RecordCard({ date, records }) {
                 <td style={{ width: '25%' }}>{record.note}</td>
               </tr>
             ))}
+            {date.endsWith('01') ? (
+              <tr>
+                <td>
+                  <div className='caryryover'>Carry-over: {carryover}</div>
+                </td>
+              </tr>
+            ) : null}
           </tbody>
         </Table>
         {modalShow && (
