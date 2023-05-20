@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { LineChart } from '../compontent/LineChart';
 import AppContext from '../compontent/context/AppContext';
 import { getTotalIncomeAndExpense, groupedTransactions } from '../utilities/calculation';
-import './Home.css';
+import './Dashboard.css';
 
 const incomeAndExpense = (transactions, date) => {
   const monthSelected = date.toISOString().substring(0, 7);
@@ -21,7 +21,7 @@ const incomeAndExpense = (transactions, date) => {
   }
 };
 
-function Home() {
+function Dashboard() {
   const [money, setMoney] = useState({});
   const { transactionrecords } = useContext(AppContext);
 
@@ -65,4 +65,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Dashboard;

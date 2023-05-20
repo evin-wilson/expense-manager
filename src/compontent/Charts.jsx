@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 // !!! important for the chart to work
 import { Chart as ChartJS } from 'chart.js/auto';
 
-const Dashboard = ({ chartData }) => {
+const Charts = ({ chartData }) => {
   return (
     <>
       <div className='graph'>
@@ -15,4 +15,4 @@ const Dashboard = ({ chartData }) => {
   );
 };
 
-export default Dashboard;
+export default Charts;

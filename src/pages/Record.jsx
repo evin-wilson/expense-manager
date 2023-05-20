@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 
-import Dashboard from '../compontent/Dashboard';
+import Charts from '../compontent/Charts';
 import RecordCard from '../compontent/RecordCard';
 import AppContext from '../compontent/context/AppContext';
 import { groupedTransactions } from '../utilities/calculation';
@@ -60,9 +60,9 @@ const Record = () => {
       <div className='d-flex justify-content-around'>
         {flattenedTransactionRecords.length !== 0 ? (
           <>
-            <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
-            <Dashboard chartData={getTransactionDataForChart(flattenedTransactionRecords)} />
-            <Dashboard chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+            <Charts chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+            <Charts chartData={getTransactionDataForChart(flattenedTransactionRecords)} />
+            <Charts chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
           </>
         ) : (
           <div>No data...</div>
