@@ -4,7 +4,7 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 import Charts from '../compontent/Charts';
 import RecordCard from '../compontent/RecordCard';
 import AppContext from '../compontent/context/AppContext';
-import { groupedTransactions } from '../utilities/calculation';
+import { getCarryoverAmount, groupedTransactions } from '../utilities/calculation';
 import { getTransactionDataForChart, getcategoryDataForChart } from '../utilities/chartData';
 
 const MonthSelector = ({ month, setMonth }) => {
@@ -31,6 +31,15 @@ const firstDayOfMonth = (date) => {
   return dateString;
 };
 
+// To chek if the first day of month is there. if not add a empty records for that day to add the carryover
+const checkFirstDayIsThere = (monthRecordMap, date) => {
+  const firstday = firstDayOfMonth(date);
+  if (!monthRecordMap.has(firstday)) {
+    monthRecordMap.set(firstday, []);
+  }
+  return monthRecordMap;
+};
+
 const Record = () => {
   const { transactionrecords } = useContext(AppContext);
   const [monthSelected, setMonthSelected] = useState(new Date());
@@ -38,6 +47,8 @@ const Record = () => {
   const [flattenedTransactionRecords, setFlattenedTransactionRecords] = useState([]);
   const [carryOverAmount, setCarryOverAmount] = useState(0);
   useEffect(() => {
+    setCarryOverAmount(getCarryoverAmount(monthSelected, transactionrecords));
+
     let updatedRecordMap = groupedTransactions(transactionrecords);
     setrecordMap(updatedRecordMap);
 
@@ -53,7 +64,8 @@ const Record = () => {
     }
   }, [monthSelected, transactionrecords]);
 
-  const monthRecordMap = recordMap.get(monthSelected.toISOString().substring(0, 7)) || new Map();
+  let monthRecordMap = recordMap.get(monthSelected.toISOString().substring(0, 7)) || new Map();
+  monthRecordMap = checkFirstDayIsThere(monthRecordMap, monthSelected);
 
   return (
     <>
@@ -73,14 +85,6 @@ const Record = () => {
       {[...monthRecordMap.entries()].map(([date, records]) => (
         <RecordCard key={date} date={date} records={records} carryover={carryOverAmount} />
       ))}
-      {monthRecordMap.size === 0 ? (
-        <RecordCard
-          key={firstDayOfMonth(monthSelected)}
-          date={firstDayOfMonth(monthSelected)}
-          records={new Array()}
-          carryover={carryOverAmount}
-        />
-      ) : null}
     </>
   );
 };

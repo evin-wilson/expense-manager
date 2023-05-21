@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 /**
  * Calculates income and expense from an array of records.
  *
@@ -60,4 +62,39 @@ export const groupByMonth = (transactions) => {
     transactionMap.get(month).push({ ...transaction, index });
   });
   return transactionMap;
+};
+
+/**
+ *
+ * @param {Date} monthselected
+ * @param {Array} transactionRecords
+ * @returns returns the carryover amount for the given month from the previous month
+ */
+export const getCarryoverAmount = (monthselected, transactionRecords) => {
+  let carryoverAmount = 0.0;
+  let previousMonth = DateTime.fromJSDate(monthselected).minus({ month: 1 }).toFormat('yyyy-MM');
+  let transactionByMonth = groupByMonth(transactionRecords);
+
+  // Sort the map based on keys
+  var sortedEntries = [...transactionByMonth.entries()].sort();
+  var sortedMap = new Map(sortedEntries);
+
+  sortedMap.forEach((records, date) => {
+    let obj = getTotalIncomeAndExpense(records);
+    carryoverAmount = carryoverAmount + (obj.income - obj.expense);
+    sortedMap.set(date, carryoverAmount);
+  });
+
+  if (sortedMap.has(previousMonth)) {
+    return sortedMap.get(previousMonth);
+  } else {
+    let lastKey = [...sortedMap.keys()][sortedMap.size - 1];
+    return previousMonth > lastKey ? sortedMap.get(lastKey) : 0.0;
+    /**
+     * TODO
+     * The case where previousmonth not in the map and it lies in between the range of months calculated if not done
+     * suppose previousmonth = '2023-08' and map contains keys as ['2023-06', '2023-09']. this time the carryover
+     * will be calculated as 0.0 but instead it should have to be carryover from '2023-06'
+     */
+  }
 };

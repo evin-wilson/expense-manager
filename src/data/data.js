@@ -28,7 +28,7 @@ export const transactions = [
   new Record('income', '2023-03-06T09:15', 100000, 'Salary', '', ''),
   new Record('income', '2023-03-06T21:16', 1000, 'credits', 'friend', ''),
   new Record('income', '2023-05-06T21:16', 1000, 'credits', 'friend', ''),
-  new Record('income', '2023-05-05T21:16', 5000, 'Salary', 'Salary', ''),
+  new Record('income', '2023-05-01T21:16', 5000, 'Salary', 'Salary', ''),
   new Record('expense', '2023-05-06T21:16', 10, 'food', 'chaya', ''),
   new Record('expense', '2023-05-06T21:16', 500, 'health', 'medicine', ''),
 ];
