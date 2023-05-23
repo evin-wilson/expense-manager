@@ -32,7 +32,10 @@ function Dashboard() {
 
   return (
     <>
-      <h1>This Month</h1>
+      <div className='d-flex'>
+        <h1>This Month</h1>
+        <div>month selected</div>
+      </div>
       <section className='d-flex gap-4 pt-4 month-view'>
         <div>
           <p className='mb-1'>Income (annuualy):</p>
@@ -51,15 +54,13 @@ function Dashboard() {
           <p className='fs-2'>{`${money.income - money.expense} Rs`}</p>
         </div>
       </section>
-      <div
-        style={{
-          border: 'solid 1px black',
-          maxWidth: '70%',
-          maxHeight: '350px',
-          marginTop: '30px',
-        }}
-      >
-        <LineChart />
+      <div className='d-flex justify-content-between mt-5' style={{ maxHeight: '350px' }}>
+        <div className='col-8 pr-2' style={{ border: 'solid 1px black', maxWidth: '70%' }}>
+          <LineChart />
+        </div>
+        <div className='col-4' style={{ backgroundColor: 'lightgreen' }}>
+          Second Child Div (25%)
+        </div>
       </div>
     </>
   );
