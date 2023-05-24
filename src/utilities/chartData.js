@@ -1,8 +1,8 @@
 import { getTotalIncomeAndExpense, groupByMonth } from './calculation';
 
-const getcategoryDataForChart = (transactions) => {
+const getcategoryDataForChart = (transactions, transactionType) => {
   const categoryTotals = transactions.reduce((totals, transaction) => {
-    if (transaction.transaction === 'expense') {
+    if (transaction.transaction === transactionType) {
       totals[transaction.category] = totals[transaction.category] || 0;
       totals[transaction.category] += transaction.amount;
     }
@@ -59,7 +59,7 @@ const labels = [
   'December',
 ];
 
-export const lineChartDataForTransactions = (transactions) => {
+export const barChartDataForTransactions = (transactions) => {
   const result = new Map();
 
   // create empty map with income and expense as 0 for each month
@@ -85,13 +85,13 @@ export const lineChartDataForTransactions = (transactions) => {
         label: 'Income',
         data: [...result.values()].map(({ income }) => income),
         borderColor: 'rgb(36, 115, 16)',
-        backgroundColor: 'rgba(36, 115, 16, 0.5)',
+        minBarLength: 3,
       },
       {
         label: 'Expense',
         data: [...result.values()].map(({ expense }) => expense),
         borderColor: 'rgb(245, 39, 39)',
-        backgroundColor: 'rgba(245, 39, 39, 0.5)',
+        minBarLength: 3,
       },
     ],
   };

@@ -1,10 +1,19 @@
 import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Pie } from 'react-chartjs-2';
+
+import { DateTime } from 'luxon';
 
 import { LineChart } from '../compontent/LineChart';
+import MonthSelector from '../compontent/MonthSelector';
 import AppContext from '../compontent/context/AppContext';
-import { getTotalIncomeAndExpense, groupedTransactions } from '../utilities/calculation';
+import {
+  getTotalIncomeAndExpense,
+  groupByMonth,
+  groupedTransactions,
+} from '../utilities/calculation';
+import { getcategoryDataForChart } from '../utilities/chartData';
 import './Dashboard.css';
 
 const incomeAndExpense = (transactions, date) => {
@@ -23,19 +32,25 @@ const incomeAndExpense = (transactions, date) => {
 
 function Dashboard() {
   const [money, setMoney] = useState({});
+  const [monthSelected, setMonthSelected] = useState(new Date());
+  const [selectedMonthTransactions, setSelectedMonthTransactions] = useState([]);
+
   const { transactionrecords } = useContext(AppContext);
 
   useEffect(() => {
     let updateMoney = incomeAndExpense(transactionrecords, new Date());
     setMoney(updateMoney);
-  }, [transactionrecords]);
+
+    let monthDataMap = groupByMonth(transactionrecords);
+    let monthSelectedString = DateTime.fromJSDate(monthSelected).toFormat('yyyy-MM');
+    setSelectedMonthTransactions(monthDataMap.get(monthSelectedString) || new Array());
+  }, [transactionrecords, monthSelected]);
+
+  let incomeCategoryData = getcategoryDataForChart(selectedMonthTransactions, 'income');
 
   return (
     <>
-      <div className='d-flex'>
-        <h1>This Month</h1>
-        <div>month selected</div>
-      </div>
+      <MonthSelector month={monthSelected} setMonth={setMonthSelected} />
       <section className='d-flex gap-4 pt-4 month-view'>
         <div>
           <p className='mb-1'>Income (annuualy):</p>
@@ -58,8 +73,12 @@ function Dashboard() {
         <div className='col-8 pr-2' style={{ border: 'solid 1px black', maxWidth: '70%' }}>
           <LineChart />
         </div>
-        <div className='col-4' style={{ backgroundColor: 'lightgreen' }}>
-          Second Child Div (25%)
+        <div className='col-4 d-flex justify-content-center align-items-center'>
+          {incomeCategoryData.labels.length !== 0 ? (
+            <Pie data={incomeCategoryData} />
+          ) : (
+            <div>No income data available</div>
+          )}
         </div>
       </div>
     </>

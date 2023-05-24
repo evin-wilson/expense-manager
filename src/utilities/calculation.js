@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
 
+import Record from '../data/Record';
+
 /**
  * Calculates income and expense from an array of records.
  *
@@ -49,6 +51,11 @@ export const groupedTransactions = (transactions) => {
   return transactionMap;
 };
 
+/**
+ * group the transactions by month key will be date in the format 'YYYY-MM' and value will be Array of transactions for that month
+ * @param {Array} transactions - The array of transactions to be grouped.
+ * @returns {Map<String, Array<Record>>} - A map containing the grouped transactions.
+ */
 export const groupByMonth = (transactions) => {
   const transactionMap = new Map();
 
@@ -67,8 +74,8 @@ export const groupByMonth = (transactions) => {
 /**
  *
  * @param {Date} monthselected
- * @param {Array} transactionRecords
- * @returns returns the carryover amount for the given month from the previous month
+ * @param {Array<Record>} transactionRecords
+ * @returns {Number} returns the carryover amount for the given month from the previous month
  */
 export const getCarryoverAmount = (monthselected, transactionRecords) => {
   let carryoverAmount = 0.0;

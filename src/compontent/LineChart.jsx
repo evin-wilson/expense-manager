@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 import {
   CategoryScale,
@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from 'chart.js';
 
-import { lineChartDataForTransactions } from '../utilities/chartData';
+import { barChartDataForTransactions } from '../utilities/chartData';
 import AppContext from './context/AppContext';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -28,5 +28,5 @@ export const options = {
 
 export function LineChart() {
   const { transactionrecords } = useContext(AppContext);
-  return <Line data={lineChartDataForTransactions(transactionrecords)} />;
+  return <Bar data={barChartDataForTransactions(transactionrecords)} />;
 }

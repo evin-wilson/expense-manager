@@ -1,26 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
 
 import Charts from '../compontent/Charts';
+import MonthSelector from '../compontent/MonthSelector';
 import RecordCard from '../compontent/RecordCard';
 import AppContext from '../compontent/context/AppContext';
 import { getCarryoverAmount, groupedTransactions } from '../utilities/calculation';
 import { getTransactionDataForChart, getcategoryDataForChart } from '../utilities/chartData';
-
-const MonthSelector = ({ month, setMonth }) => {
-  return (
-    <ButtonGroup className='mb-3'>
-      <Button onClick={() => setMonth(new Date(month.setMonth(month.getMonth() - 1)))}>&lt;</Button>
-      <Button>
-        {month.toLocaleDateString('en-US', {
-          month: 'long',
-          year: 'numeric',
-        })}
-      </Button>
-      <Button onClick={() => setMonth(new Date(month.setMonth(month.getMonth() + 1)))}>&gt;</Button>
-    </ButtonGroup>
-  );
-};
 
 const firstDayOfMonth = (date) => {
   let temp = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -72,9 +57,9 @@ const Record = () => {
       <div className='d-flex justify-content-around'>
         {flattenedTransactionRecords.length !== 0 ? (
           <>
-            <Charts chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+            <Charts chartData={getcategoryDataForChart(flattenedTransactionRecords, 'expense')} />
             <Charts chartData={getTransactionDataForChart(flattenedTransactionRecords)} />
-            <Charts chartData={getcategoryDataForChart(flattenedTransactionRecords)} />
+            <Charts chartData={getcategoryDataForChart(flattenedTransactionRecords, 'expense')} />
           </>
         ) : (
           <div>No data...</div>
