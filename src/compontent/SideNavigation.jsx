@@ -41,22 +41,6 @@ const SideNavigation = () => {
             Record
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item>
-          <Nav.Link as={Link} eventKey='analytics' to='/analytics'>
-            Analytics
-          </Nav.Link>
-        </Nav.Item>
-        <hr style={{ color: 'white' }} />
-        <Nav.Item>
-          <Nav.Link eventKey='link-4' href='#'>
-            Bucket 1
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey='link-2' href='#'>
-            Bucket 2
-          </Nav.Link>
-        </Nav.Item>
       </Nav>
     </Navbar>
   );

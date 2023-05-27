@@ -13,7 +13,7 @@ import {
   groupByMonth,
   groupedTransactions,
 } from '../utilities/calculation';
-import { getcategoryDataForChart } from '../utilities/chartData';
+import { categoryDataForChart } from '../utilities/chartData';
 import './Dashboard.css';
 
 const incomeAndExpense = (transactions, date) => {
@@ -46,7 +46,8 @@ function Dashboard() {
     setSelectedMonthTransactions(monthDataMap.get(monthSelectedString) || new Array());
   }, [transactionrecords, monthSelected]);
 
-  let incomeCategoryData = getcategoryDataForChart(selectedMonthTransactions, 'income');
+  let incomeCategoryData = categoryDataForChart(selectedMonthTransactions, 'income');
+  let expenceCategoryData = categoryDataForChart(selectedMonthTransactions, 'expense');
 
   return (
     <>
@@ -69,7 +70,7 @@ function Dashboard() {
           <p className='fs-2'>{`${money.income - money.expense} Rs`}</p>
         </div>
       </section>
-      <div className='d-flex justify-content-between mt-5' style={{ maxHeight: '350px' }}>
+      <section className='d-flex justify-content-between mt-5' style={{ maxHeight: '350px' }}>
         <div className='col-8 pr-2' style={{ border: 'solid 1px black', maxWidth: '70%' }}>
           <LineChart />
         </div>
@@ -80,7 +81,19 @@ function Dashboard() {
             <div>No income data available</div>
           )}
         </div>
-      </div>
+      </section>
+      <section className='d-flex justify-content-between mt-5' style={{ maxHeight: '350px' }}>
+        <div className='col-4 d-flex justify-content-center align-items-center'>
+          {expenceCategoryData.labels.length !== 0 ? (
+            <Pie data={expenceCategoryData} />
+          ) : (
+            <div>No expense data available</div>
+          )}
+        </div>
+        <div className='col-8 pr-2' style={{ border: 'solid 1px black', maxWidth: '70%' }}>
+          <LineChart />
+        </div>
+      </section>
     </>
   );
 }
