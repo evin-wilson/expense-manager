@@ -20,7 +20,8 @@ const checkFirstDayIsThere = (monthRecordMap, date) => {
   if (!monthRecordMap.has(firstday)) {
     monthRecordMap.set(firstday, []);
   }
-  return monthRecordMap;
+  var sortedEntries = [...monthRecordMap.entries()].sort().reverse();
+  return new Map(sortedEntries);
 };
 
 const Record = () => {

@@ -48,26 +48,29 @@ function Dashboard() {
 
   let incomeCategoryData = categoryDataForChart(selectedMonthTransactions, 'income');
   let expenceCategoryData = categoryDataForChart(selectedMonthTransactions, 'expense');
+  let { income: currentIncome, expense: currentExpense } =
+    getTotalIncomeAndExpense(selectedMonthTransactions);
 
   return (
     <>
       <MonthSelector month={monthSelected} setMonth={setMonthSelected} />
       <section className='d-flex gap-4 pt-4 month-view'>
         <div>
+          {/* TODO: Need to fix this Annual income  */}
           <p className='mb-1'>Income (annuualy):</p>
-          <p className='fs-2'>{`${money.income} Rs`}</p>
+          <p className='fs-2'>{`${currentIncome} Rs`}</p>
         </div>
         <div>
           <p className='mb-1'>Income (monthly):</p>
-          <p className='fs-2'>{`${money.income} Rs`}</p>
+          <p className='fs-2'>{`${currentIncome} Rs`}</p>
         </div>
         <div>
           <p className='mb-1'>Expense:</p>
-          <p className='fs-2'>{`${money.expense} Rs`}</p>
+          <p className='fs-2'>{`${currentExpense} Rs`}</p>
         </div>
         <div>
           <p className='mb-1'>Savings:</p>
-          <p className='fs-2'>{`${money.income - money.expense} Rs`}</p>
+          <p className='fs-2'>{`${currentIncome - currentExpense} Rs`}</p>
         </div>
       </section>
       <section className='d-flex justify-content-between mt-5' style={{ maxHeight: '350px' }}>

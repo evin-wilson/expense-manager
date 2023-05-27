@@ -11,6 +11,8 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
+// !!! important for the chart to work
+import { Chart } from 'chart.js/auto';
 
 import { barChartDataForTransactions } from '../utilities/chartData';
 import AppContext from './context/AppContext';

@@ -84,13 +84,13 @@ const barChartDataForTransactions = (transactions) => {
       {
         label: 'Income',
         data: [...result.values()].map(({ income }) => income),
-        borderColor: 'rgb(36, 115, 16)',
+        backgroundColor: 'rgb(36, 115, 16)',
         minBarLength: 3,
       },
       {
         label: 'Expense',
         data: [...result.values()].map(({ expense }) => expense),
-        borderColor: 'rgb(245, 39, 39)',
+        backgroundColor: 'rgb(245, 39, 39)',
         minBarLength: 3,
       },
     ],
