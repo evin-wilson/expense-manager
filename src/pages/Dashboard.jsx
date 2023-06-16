@@ -9,6 +9,7 @@ import { LineChart } from '../compontent/LineChart';
 import MonthSelector from '../compontent/MonthSelector';
 import AppContext from '../compontent/context/AppContext';
 import {
+  calculateAnnualIncome,
   getTotalIncomeAndExpense,
   groupByMonth,
   groupedTransactions,
@@ -50,6 +51,7 @@ function Dashboard() {
   let expenceCategoryData = categoryDataForChart(selectedMonthTransactions, 'expense');
   let { income: currentIncome, expense: currentExpense } =
     getTotalIncomeAndExpense(selectedMonthTransactions);
+  const annualIncome = calculateAnnualIncome(transactionrecords, monthSelected);
 
   return (
     <>
@@ -58,7 +60,7 @@ function Dashboard() {
         <div>
           {/* TODO: Need to fix this Annual income  */}
           <p className='mb-1'>Income (annuualy):</p>
-          <p className='fs-2'>{`${currentIncome} Rs`}</p>
+          <p className='fs-2'>{`${annualIncome} Rs`}</p>
         </div>
         <div>
           <p className='mb-1'>Income (monthly):</p>

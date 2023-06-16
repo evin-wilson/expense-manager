@@ -22,6 +22,23 @@ export const getTotalIncomeAndExpense = (records) => {
 };
 
 /**
+ *
+ * @param {Array} transactions
+ * @param {Date} monthSelected selected moth
+ * @returns {Number} annual income of the current year selected
+ */
+export const calculateAnnualIncome = (transactions, monthSelected) => {
+  const year = DateTime.fromJSDate(monthSelected).toFormat('yyyy');
+  let annualIncome = 0;
+  transactions.forEach((transaction) => {
+    if (transaction.date.slice(0, 4) === year && transaction.transaction === 'income') {
+      annualIncome += transaction.amount;
+    }
+  });
+  return annualIncome;
+};
+
+/**
  * this function is to get transactions record group by month and date
  * return value is a map with month (yyyy-mm) as key and
  * value is a map of date as key and Array of records as value
