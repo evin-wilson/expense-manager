@@ -1,6 +1,7 @@
 import { createContext } from 'react';
-import { transactions } from '../../data/data';
 import { useState } from 'react';
+
+import { transactions } from '../../data/data';
 
 const AppContext = createContext(null);
 
@@ -19,7 +20,16 @@ export const AppProvider = (props) => {
 
   const updateTransaction = (index, updatedTransaction) => {
     const updatedTransactions = [...transactionrecords];
-    updatedTransactions[index] = updatedTransaction;
+    const existingTransaction = updatedTransactions[index];
+    updatedTransactions[index] = {
+      ...existingTransaction,
+      transaction: updatedTransaction.transaction,
+      date: updatedTransaction.date,
+      amount: updatedTransaction.amount,
+      category: updatedTransaction.category,
+      note: updatedTransaction.note,
+      description: updatedTransaction.description,
+    };
     setTransactionRecords(updatedTransactions);
   };
   return (

@@ -13,22 +13,28 @@ const TransactionsModal = (props) => {
   const record = props.record;
   const [transaction, settransaction] = useState(record.transaction);
   const formRef = useRef(null);
-  const { addTransaction, transactionrecords } = useContext(AppContext);
+  const { addTransaction, updateTransaction, transactionrecords } = useContext(AppContext);
 
   const handleSave = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
 
-    addTransaction(
-      new Record(
-        transaction,
-        formData.get('date'),
-        parseInt(formData.get('amount')),
-        formData.get('category'),
-        formData.get('note'),
-        formData.get('description')
-      )
+    let newRecord = new Record(
+      transaction,
+      formData.get('date'),
+      parseInt(formData.get('amount')),
+      formData.get('category'),
+      formData.get('note'),
+      formData.get('description')
     );
+    let index = transactionrecords.findIndex((rs) => rs.id === record.id);
+
+    if (index === -1) {
+      addTransaction(newRecord);
+    } else {
+      updateTransaction(index, newRecord);
+    }
+
     props.onHide();
   };
 

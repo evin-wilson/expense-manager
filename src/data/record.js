@@ -13,15 +13,22 @@ const getIsoDateTime = () => {
   return isoDateTime;
 };
 
+let counter = 0;
 class Record {
   constructor(transaction, date, amount, category, note, description) {
+    this.id = this.generateUniqueId();
+    this.createdTs = getIsoDateTime();
     this.transaction = transaction || 'expense';
     this.date = date || getIsoDateTime();
-    this.createdTs = getIsoDateTime();
     this.amount = amount || 0.0;
     this.category = category || '';
     this.note = note || '';
     this.description = description || '';
+  }
+  generateUniqueId() {
+    const timestamp = Date.now();
+    counter++;
+    return `record_${timestamp}_${counter}`;
   }
 }
 
