@@ -58,7 +58,6 @@ function Dashboard() {
       <MonthSelector month={monthSelected} setMonth={setMonthSelected} />
       <section className='d-flex gap-4 pt-4 month-view'>
         <div>
-          {/* TODO: Need to fix this Annual income  */}
           <p className='mb-1'>Income (annuualy):</p>
           <p className='fs-2'>{`${annualIncome} Rs`}</p>
         </div>

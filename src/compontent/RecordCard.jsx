@@ -58,11 +58,10 @@ function RecordCard({ date, records, carryover }) {
                 }
                 onClick={() => handleRowClick(record)}
               >
-                <td style={{ width: '25%' }}>{record.date}</td>
-                <td style={{ width: '25%' }}>{`${record.amount} Rs`}</td>
                 <td style={{ width: '25%' }}>{record.category}</td>
                 <td style={{ width: '25%' }}>{record.note}</td>
-                <td style={{ width: '25%' }}>
+                <td style={{ width: '25%' }}>{`${record.amount} Rs`}</td>
+                <td style={{ width: '10%' }}>
                   <div style={{ display: 'flex', alignItems: 'center', flex: '1' }}>
                     <button
                       style={{ maxWidth: '80px' }}

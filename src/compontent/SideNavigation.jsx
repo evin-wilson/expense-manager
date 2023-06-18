@@ -24,7 +24,7 @@ const SideNavigation = () => {
       <hr />
       <Nav
         variant='pills'
-        defaultActiveKey='/'
+        defaultActiveKey='dashboard'
         className='flex-column p-3'
         style={{ width: '100%' }}
       >
