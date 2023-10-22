@@ -1,0 +1,5 @@
+{"amount":20,"date":"2023-10-28","createdAt":"2023-10-28T10:52:57.668Z","transaction":"expense","account":"savings","category":"me","subCategory":"medicine","note":"dolo","description":"","_id":"1RrRE7lJ6bOrNQvS"}
+{"amount":120,"date":"2023-10-22","createdAt":"2023-10-22T10:52:57.668Z","transaction":"expense","account":"savings","category":"food","subCategory":"breakfast","note":"Masala Dhosa","description":"","_id":"5izRxC5IGnfNF1pp"}
+{"amount":200,"date":"2023-10-05","createdAt":"2023-10-05T10:52:57.668Z","transaction":"income","account":"savings","category":"salary","note":"Salary","description":"","_id":"gnY75NSu7xNCylcg"}
+{"amount":30,"date":"2023-10-10","createdAt":"2023-10-10T10:52:57.668Z","transaction":"liablity","account":"savings","category":"debt","note":"antony","description":"","_id":"pgjqSFQkUJ55fFtq"}
+{"$$indexCreated":{"fieldName":"createdAt","unique":true,"sparse":false}}
