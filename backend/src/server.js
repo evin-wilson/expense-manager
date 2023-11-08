@@ -10,5 +10,7 @@ app.listen(PORT, () => {
   console.log(`Listening at port ${PORT}`);
 });
 
+app.use(express.json());
+
 app.use('/transaction', router);
 app.use('/category', categoryRouter);

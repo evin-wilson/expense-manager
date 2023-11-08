@@ -13,7 +13,8 @@ const transactionsSchema = {
 const categoriesSchema = {
   type: { type: 'string', index: true },
   name: { type: 'string', index: true },
-  hasSubCategory: { type: 'string' },
+  hasSubCategory: { type: 'boolean' },
+  subCategory: { type: 'array' },
 };
 
 export const intial_transactions = [
