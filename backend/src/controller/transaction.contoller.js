@@ -13,6 +13,13 @@ const findDocument = (query) => {
   });
 };
 
+const generateSum = (transactions) => {
+  let totalAmount = 0.0;
+  for (let i = 0; i < transactions.length; i++) {
+    totalAmount += transactions[i].amount;
+  }
+  return { totalAmount: totalAmount };
+};
 // TODO: need proper validation
 const validateTransaction = (transaction) => {
   return true;
@@ -22,7 +29,10 @@ const findByCreatedAt = (req, res) => {
   const createdAt = req.params.createdAt;
 
   findDocument({ createdAt: createdAt })
-    .then((data) => res.json(data))
+    .then((data) => {
+      if (data.length > 0) res.json(data);
+      else res.status(404).json({ error: 'no data found' });
+    })
     .catch(() => {
       console.log(err);
       res.status(500).send({ error: 'some exception occur' });
@@ -84,4 +94,54 @@ const deleteTransaction = (req, res) => {
   });
 };
 
-export { findByCreatedAt, addTransaction, updateTransaction, deleteTransaction };
+const allTransactions = (req, res) => {
+  const { type, year, month } = req.query;
+  // TODO: validate query params
+
+  let query = { transaction: type };
+  if (year !== undefined) {
+    if (month !== undefined) {
+      query.date = new RegExp(`^${year}-${month.padStart(2, '0')}-`);
+    } else {
+      query.date = new RegExp(`^${year}-`);
+    }
+  }
+
+  findDocument(query)
+    .then((data) => {
+      if (data.length > 0) res.json(data);
+      else res.status(404).json({ error: 'no data found' });
+    })
+    .catch(() => {
+      console.log(err);
+      res.status(500).send({ error: 'some exception occur' });
+    });
+};
+
+const sumOfAllTransactions = (req, res) => {
+  const { type, year, month } = req.query;
+  // TODO: validate query params
+
+  let query = {};
+  query.transaction = type;
+  query.date = new RegExp(`^${year}-`);
+
+  findDocument(query)
+    .then((data) => {
+      if (data.length > 0) res.json(generateSum(data));
+      else res.status(404).json({ error: 'no data found' });
+    })
+    .catch(() => {
+      console.log(err);
+      res.status(500).send({ error: 'some exception occur' });
+    });
+};
+
+export {
+  findByCreatedAt,
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
+  allTransactions,
+  sumOfAllTransactions,
+};
