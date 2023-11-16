@@ -5,9 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 
-import AppContext from '../compontent/context/AppContext';
 import Record from '../data/Record';
 import { expenseOption, incomeOption } from '../data/data';
+import AppContext from './context/AppContext';
 
 const TransactionsModal = (props) => {
   const record = props.record;
