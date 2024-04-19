@@ -1,0 +1,8 @@
+{"$$indexCreated":{"fieldName":"createdAt","unique":true,"sparse":false}}
+{"amount":120,"date":"2023-10-22","createdAt":"2023-10-22T10:52:57.668Z","transaction":"expense","account":"savings","category":"food","subCategory":"breakfast","note":"Masala Dhosa","description":"","_id":"FOqU2X3D3pst0K1n"}
+{"amount":120,"date":"2022-10-22","createdAt":"2022-10-22T10:52:57.668Z","transaction":"expense","account":"savings","category":"food","subCategory":"breakfast","note":"Masala Dhosa","description":"","_id":"y0eoiRE22MnBldfF"}
+{"amount":200,"date":"2023-10-01","createdAt":"2023-10-01T10:52:57.668Z","transaction":"income","account":"savings","category":"salary","note":"Salary","description":"","_id":"gPMfNhaUx6CbrZcL"}
+{"amount":200,"date":"2023-09-01","createdAt":"2023-09-01T10:52:57.668Z","transaction":"income","account":"savings","category":"salary","note":"Salary","description":"","_id":"me4ihyzQN31X9fR4"}
+{"amount":20,"date":"2023-10-28","createdAt":"2023-10-28T10:52:57.668Z","transaction":"expense","account":"savings","category":"me","subCategory":"medicine","note":"dolo","description":"","_id":"x3q33ZJoaruQwrwO"}
+{"amount":20,"date":"2023-09-28","createdAt":"2023-9-28T10:52:57.668Z","transaction":"expense","account":"savings","category":"me","subCategory":"medicine","note":"dolo","description":"","_id":"u5ZEdY20bAy6e4MH"}
+{"amount":30,"date":"2023-10-10","createdAt":"2023-10-10T10:52:57.668Z","transaction":"liablity","account":"savings","category":"debt","note":"antony","description":"","_id":"hJhxPTB3eHiDvmhu"}

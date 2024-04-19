@@ -14,3 +14,5 @@ app.use(express.json());
 
 app.use('/transaction', router);
 app.use('/category', categoryRouter);
+
+export default app;
