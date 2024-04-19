@@ -16,6 +16,7 @@ const Navigations = () => {
           </Form>
         </Nav>
       </Navbar>
+
       <SideNavigation />
     </>
   );

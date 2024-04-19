@@ -28,7 +28,7 @@ const SideNavigation = () => {
         className='flex-column p-3'
         style={{ width: '100%' }}
       >
-        <Button onClick={() => setModalShow(true)}>Add Expense</Button>
+        <Button onClick={() => setModalShow(true)}>Add Transaction</Button>
         <TransactionsModal show={modalShow} onHide={() => setModalShow(false)} record={record} />
         <br />
         <Nav.Item>
