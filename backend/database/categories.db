@@ -1,0 +1,6 @@
+{"type":"category","name":"self","hasSubCategory":false,"_id":"4NUJc9EWNPtuqwbF"}
+{"type":"account","name":"money","hasSubCategory":false,"_id":"Ai8QkZcVLgKmcOLZ"}
+{"type":"account","name":"savings","hasSubCategory":false,"_id":"Ms6zXG9pakbGB7ar"}
+{"type":"category","name":"food","hasSubCategory":true,"subCategory":["breakfast","lunch","tea"],"_id":"NLXfzEbymQcJCBOP"}
+{"type":"account","name":"credit card","hasSubCategory":false,"_id":"Ve1AZTVxr3GduXxn"}
+{"type":"category","name":"movies","hasSubCategory":false,"_id":"iG0Ph2PLZS94ffzk"}
