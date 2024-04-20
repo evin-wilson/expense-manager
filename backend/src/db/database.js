@@ -1,14 +1,10 @@
 import Datastore from 'nedb';
-import { fileURLToPath } from 'url';
 import path from 'path';
 
 import { intial_categories, intial_transactions } from './intialData.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const transactionDbFile = path.join(__dirname, 'database/transaction.db');
-const categoriesDbFile = path.join(__dirname, 'database/categories.db');
+const transactionDbFile = path.join(process.cwd(), 'database/transaction.db');
+const categoriesDbFile = path.join(process.cwd(), 'database/categories.db');
 
 function loadData(db, data) {
   db.find({}, (err, existingData) => {
