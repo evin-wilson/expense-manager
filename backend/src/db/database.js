@@ -1,6 +1,10 @@
 import Datastore from 'nedb';
+import path from 'path';
 
 import { intial_categories, intial_transactions } from './intialData.js';
+
+const transactionDbFile = path.join(__dirname, 'database/transaction.db');
+const categoriesDbFile = path.join(__dirname, 'database/categories.db');
 
 function loadData(db, data) {
   db.find({}, (err, existingData) => {
@@ -24,7 +28,7 @@ function loadData(db, data) {
 }
 
 const transactionDb = new Datastore({
-  filename: './database/transaction.db',
+  transactionDbFile,
   autoload: true,
 });
 // loading intial data for transaction
@@ -32,7 +36,7 @@ transactionDb.loadDatabase(loadData(transactionDb, intial_transactions));
 transactionDb.ensureIndex({ fieldName: 'createdAt', unique: true });
 
 const categoriesDb = new Datastore({
-  filename: './database/categories.db',
+  categoriesDbFile,
   autoload: true,
 });
 // loading intial data for categories
