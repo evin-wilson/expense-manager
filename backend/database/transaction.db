@@ -1,0 +1,8 @@
+{"amount":20,"date":"2023-10-28","createdAt":"2023-10-28T10:52:57.668Z","transaction":"expense","account":"savings","category":"me","subCategory":"medicine","note":"dolo","description":"","_id":"1Him3pHkYHfeHOWY"}
+{"amount":120,"date":"2023-10-22","createdAt":"2023-10-22T10:52:57.668Z","transaction":"expense","account":"savings","category":"food","subCategory":"breakfast","note":"Masala Dhosa","description":"","_id":"GBrIsQAcr2Dw0ITd"}
+{"amount":30,"date":"2023-10-10","createdAt":"2023-10-10T10:52:57.668Z","transaction":"liablity","account":"savings","category":"debt","note":"antony","description":"","_id":"S24F4BYrE1rLyiTe"}
+{"amount":200,"date":"2023-09-01","createdAt":"2023-09-01T10:52:57.668Z","transaction":"income","account":"savings","category":"salary","note":"Salary","description":"","_id":"VQvETjMmN7WBEW3k"}
+{"amount":200,"date":"2023-10-01","createdAt":"2023-10-01T10:52:57.668Z","transaction":"income","account":"savings","category":"salary","note":"Salary","description":"","_id":"gAYIIWtyBjRlrNnp"}
+{"amount":120,"date":"2022-10-22","createdAt":"2022-10-22T10:52:57.668Z","transaction":"expense","account":"savings","category":"food","subCategory":"breakfast","note":"Masala Dhosa","description":"","_id":"yHdxbpkvwN3s2TrQ"}
+{"amount":20,"date":"2023-09-28","createdAt":"2023-9-28T10:52:57.668Z","transaction":"expense","account":"savings","category":"me","subCategory":"medicine","note":"dolo","description":"","_id":"yiHboV3OCp64QPEp"}
+{"$$indexCreated":{"fieldName":"createdAt","unique":true,"sparse":false}}

@@ -14,3 +14,9 @@ app.use(express.json());
 
 app.use('/transaction', router);
 app.use('/category', categoryRouter);
+
+app.get('/', (req, res) => {
+  res.status(200).send({ message: 'OK' });
+});
+
+export default app;
