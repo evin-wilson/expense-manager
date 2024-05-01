@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
@@ -14,13 +13,7 @@ const SideNavigation = () => {
   const record = new Record();
 
   return (
-    <Navbar fixed='top' className='flex-column align-items-start bg-dark vh-100 side-navbar'>
-      <Container>
-        <Navbar.Brand href='#home' className='text-light'>
-          <img alt='' src='/logo.svg' width='30' height='30' className='d-inline-block align-top' />{' '}
-          TrackCoin
-        </Navbar.Brand>
-      </Container>
+    <Navbar className='flex-column align-items-start bg-dark vh-100 side-navbar'>
       <hr />
       <Nav
         variant='pills'

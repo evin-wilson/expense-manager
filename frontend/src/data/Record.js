@@ -14,6 +14,7 @@ const getIsoDateTime = () => {
 };
 
 let counter = 0;
+
 class Record {
   constructor(transaction, date, amount, category, note, description) {
     this.id = this.generateUniqueId();
